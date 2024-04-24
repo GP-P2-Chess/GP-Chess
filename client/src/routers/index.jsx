@@ -25,7 +25,7 @@ const router = createBrowserRouter([
         element: <HomePage url={url} />,
       },
       {
-        path: "/game-page",
+        path: "/room/:id",
         element: <GamePage url={url} />,
       },
       {
