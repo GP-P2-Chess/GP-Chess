@@ -27,17 +27,7 @@ const GamePage = () => {
   };
 
   useEffect(() => {
-    socket.auth = {
-      username: localStorage.username,
-    };
-
-    socket.connect();
-
     fetchRoom();
-
-    return () => {
-      socket.disconnect();
-    };
   }, []);
 
   if (loading) {
