@@ -87,10 +87,10 @@ const RegisterPage = ({ url }) => {
                 onChange={passwordInput}
               />
             </label>
+            <button type="submit" className="btn btn-primary w-1/3 mt-2">
+              Sign Up
+            </button>
           </form>
-          <button type="submit" className="btn btn-primary w-1/3">
-            Sign Up
-          </button>
           <p>
             Already have an account?{" "}
             <Link to={"/login"} className="text-primary">

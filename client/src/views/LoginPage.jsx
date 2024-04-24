@@ -87,10 +87,10 @@ const LoginPage = ({ url }) => {
                 onChange={passwordInput}
               />
             </label>
+            <button type="submit" className="btn btn-primary w-1/3 mt-2">
+              Login
+            </button>
           </form>
-          <button type="submit" className="btn btn-primary w-1/3">
-            Login
-          </button>
           <p>
             Don't have an account yet?{" "}
             <Link to={"/register"} className="text-primary">
