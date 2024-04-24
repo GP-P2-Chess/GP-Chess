@@ -149,31 +149,35 @@ class ControllerGame {
       });
       if (!foundRoom) throw new Error("ROOM_NOT_FOUND");
 
-      const FirstUserId = foundRoom.FirstUserId;
-      const FirstUserMmr = foundRoom.FirstUser.mmr;
-      const SecondUserId = foundRoom.SecondUserId;
-      const SecondUserMmr = foundRoom.SecondUser.mmr;
       let win = "";
-      if (winner === "white") {
-        win = foundRoom.FirstUser.username;
-        await User.update(
-          { mmr: FirstUserMmr + 25 },
-          { where: { id: FirstUserId } }
-        );
-        await User.update(
-          { mmr: SecondUserMmr - 25 },
-          { where: { id: SecondUserId } }
-        );
-      } else if (winner === "black") {
-        win = foundRoom.SecondUser.username;
-        await User.update(
-          { mmr: FirstUserMmr - 25 },
-          { where: { id: FirstUserId } }
-        );
-        await User.update(
-          { mmr: SecondUserMmr + 25 },
-          { where: { id: SecondUserId } }
-        );
+      if (winner !== "draw") {
+        const FirstUserId = foundRoom.FirstUserId;
+        const FirstUserMmr = foundRoom.FirstUser.mmr;
+        const SecondUserId = foundRoom.SecondUserId;
+        const SecondUserMmr = foundRoom.SecondUser.mmr;
+        if (winner === "white") {
+          win = foundRoom.FirstUser.username;
+          await User.update(
+            { mmr: FirstUserMmr + 25 },
+            { where: { id: FirstUserId } }
+          );
+          await User.update(
+            { mmr: SecondUserMmr - 25 },
+            { where: { id: SecondUserId } }
+          );
+        } else if (winner === "black") {
+          win = foundRoom.SecondUser.username;
+          await User.update(
+            { mmr: FirstUserMmr - 25 },
+            { where: { id: FirstUserId } }
+          );
+          await User.update(
+            { mmr: SecondUserMmr + 25 },
+            { where: { id: SecondUserId } }
+          );
+        }
+      } else {
+        win = "Draw";
       }
 
       await Room.update({ winner: win, status }, { where: { id } });
