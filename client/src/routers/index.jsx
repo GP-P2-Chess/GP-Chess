@@ -9,29 +9,29 @@ import RegisterPage from "../views/RegisterPage";
 const url = "http://localhost:3000";
 
 const router = createBrowserRouter([
-  {
-    path: "/login",
-    element: <LoginPage url={url} />,
-  },
-  {
-    path: "/register",
-    element: <RegisterPage url={url} />,
-  },
+  // {
+  //   path: "/login",
+  //   element: <LoginPage url={url} />,
+  // },
+  // {
+  //   path: "/register",
+  //   element: <RegisterPage url={url} />,
+  // },
   {
     element: <BaseLayout url={url} />,
     children: [
       {
         path: "/",
-        element: <HomePage url={url} />,
-      },
-      {
-        path: "/room/:id",
         element: <GamePage url={url} />,
       },
-      {
-        path: "/leaderboard",
-        element: <LeaderBoard url={url} />,
-      },
+      // {
+      //   path: "/room/:id",
+      //   element: <GamePage url={url} />,
+      // },
+      // {
+      //   path: "/leaderboard",
+      //   element: <LeaderBoard url={url} />,
+      // },
     ],
   },
 ]);

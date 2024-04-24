@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import socket from "../socket";
 
 const HomePage = ({ url }) => {
   const [rooms, setRooms] = useState([]);
@@ -17,6 +18,11 @@ const HomePage = ({ url }) => {
   };
   useEffect(() => {
     fetchRoom();
+    socket.auth = {
+      username: localStorage.username,
+    };
+
+    socket.connect();
   }, []);
 
   if (isLoading) {
@@ -31,7 +37,9 @@ const HomePage = ({ url }) => {
   return (
     <section className="w-full grow flex flex-col p-4 gap-4">
       <div className="w-full flex justify-start px-8">
-        <div className="btn btn-outline btn-primary">Create new game</div>
+        <button onClick={""} className="btn btn-outline btn-primary">
+          Create New Game
+        </button>
       </div>
       <div className="overflow-auto border-2 border-accent">
         <table className="table table-fixed w-full h-full">
@@ -47,7 +55,6 @@ const HomePage = ({ url }) => {
           </thead>
           <tbody>
             {rooms?.map((el) => {
-              console.log(el);
               return (
                 <tr>
                   <td>{el.name}</td>
