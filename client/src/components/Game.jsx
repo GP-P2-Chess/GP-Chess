@@ -28,18 +28,14 @@ function Game({ players, room, orientation, cleanup }) {
 
         console.log("over, checkmate", chess.isGameOver(), chess.isCheckmate());
 
+        //CHECK GAMENYA SELESAI ATAU BELUM
         if (chess.isGameOver()) {
-          // check if move led to "game over"
           if (chess.isCheckmate()) {
-            // if reason for game over is a checkmate
-            // Set message to checkmate.
             setOver(
               `Checkmate! ${chess.turn() === "w" ? "black" : "white"} wins!`
             );
-            // The winner is determined by checking which side made the last move
           } else if (chess.isDraw()) {
-            // if it is a draw
-            setOver("Draw"); // set message to "Draw"
+            setOver("Draw");
           } else {
             setOver("Game over");
           }
@@ -48,35 +44,37 @@ function Game({ players, room, orientation, cleanup }) {
         return result;
       } catch (e) {
         return null;
-      } // null if the move was illegal, the move object if the move was legal
+        //KALAU ILLEGAL RETURN NULL
+      }
     },
     [chess]
   );
 
   // onDrop function
   function onDrop(sourceSquare, targetSquare) {
-    // orientation is either 'white' or 'black'. game.turn() returns 'w' or 'b'
-    if (chess.turn() !== orientation[0]) return false; // <- 1 prohibit player from moving piece of other player
+    //CEK TURNNYA SAMA APA NGGA SAMA WARNA CATUR KITA
+    if (chess.turn() !== orientation[0]) return false;
 
-    if (players.length < 2) return false; // <- 2 disallow a move if the opponent has not joined
+    //BUAT NUNGGU USER YANG JOIN
+    if (players.length < 2) return false;
 
     const moveData = {
       from: sourceSquare,
       to: targetSquare,
       color: chess.turn(),
-      promotion: "q", // promote to queen where possible
+      promotion: "q", // BUAT PROMOSI QUEEN PEON SAMPE UJUNG
     };
 
     const move = makeAMove(moveData);
 
-    // illegal move
+    // CEK MOVENYA ILLEGAL APA NGGA
     if (move === null) return false;
 
+    //KIRIM KE SERVER MOVENYA
     socket.emit("move", {
-      // <- 3 emit a move event.
       move,
       room,
-    }); // this event will be transmitted to the opponent via the server
+    });
 
     return true;
   }
@@ -143,6 +141,7 @@ function Game({ players, room, orientation, cleanup }) {
         contentText={over}
         handleContinue={() => {
           setOver("");
+          cleanup();
         }}
       />
     </Stack>

@@ -1,8 +1,13 @@
 import { Link, useNavigate } from "react-router-dom";
 import socket from "../socket";
+import { useContext } from "react";
+import { themeContext } from "../context/ThemeContext";
+import { IoIosSunny } from "react-icons/io";
+import { GiMoon } from "react-icons/gi";
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const { currentTheme, handleTheme } = useContext(themeContext);
 
   const handleLogout = () => {
     localStorage.clear();
@@ -22,12 +27,11 @@ const Navbar = () => {
         </Link>
       </div>
       <div className="navbar-center">
-        <Link
-          to={"/"}
-          className="btn btn-ghost text-lg flex justify-center items-center"
-        >
-          Leaderboard
-        </Link>
+        {currentTheme == "light" ? (
+          <IoIosSunny onClick={handleTheme} className="cursor-pointer size-8" />
+        ) : (
+          <GiMoon onClick={handleTheme} className="cursor-pointer size-8" />
+        )}
       </div>
       <div className="navbar-end">
         <div className="dropdown dropdown-end">

@@ -11,7 +11,6 @@ const ControllerUser = require("./controllers/controllerUser");
 const ControllerGame = require("./controllers/controllerGame");
 const Authentication = require("./middlewares/authentication");
 const authorization = require("./middlewares/authorization");
-const { Socket } = require("dgram");
 
 app.use(cors());
 app.use(express.json());
@@ -51,10 +50,10 @@ io.on("connection", (socket) => {
   // createRoom
   socket.on("createRoom", async (callback) => {
     // callback here refers to the callback function from the client passed as data
-    const roomId = uuidV4(); // <- 1 create a new uuid
-    await socket.join(roomId); // <- 2 make creating user join the room
+    const roomId = uuidV4(); //GENERATE ID ROOM PAKE UUID
+    await socket.join(roomId); // USER YANG CREATE BAKAL JOIN ROOMIDNYA
 
-    // set roomId as a key and roomData including players as value in the map
+    //BIKIN ROOMID JADI KEY DAN KITA MASUKAN DATA USER
     rooms.set(roomId, {
       // <- 3
       roomId,
@@ -68,41 +67,38 @@ io.on("connection", (socket) => {
   socket.on("joinRoom", async (args, callback) => {
     // check if room exists and has a player waiting
     const room = rooms.get(args.roomId);
+    console.log(room);
     let error, message;
 
+    //CEK ROOMNYA
     if (!room) {
-      // if room does not exist
+      //KALO ROOM GA ADA
       error = true;
       message = "room does not exist";
-    } else if (room.length <= 0) {
-      // if room is empty set appropriate message
+    } /*else if (room.length <= 0) { 
       error = true;
       message = "room is empty";
-    } else if (room.length >= 2) {
-      // if room is full
+    }*/ else if (room.players.length > 1) {
+      //SET MAXIMAL PLAYER ITU 2
       error = true;
-      message = "room is full"; // set message to 'room is full'
+      message = "room is full";
     }
 
     if (error) {
-      // if there's an error, check if the client passed a callback,
-      // call the callback (if it exists) with an error object and exit or
-      // just exit if the callback is not given
-
       if (callback) {
-        // if user passed a callback, call it with an error payload
+        //KALO ADA ERROR & KALO KITA MASUKIN CALLBACK, KITA BALIKIN KE CALLBACKNYA
         callback({
           error,
           message,
         });
       }
 
-      return; // exit
+      return;
     }
 
-    await socket.join(args.roomId); // make the joining client join the room
+    await socket.join(args.roomId); // JOIN ROOM
 
-    // add the joining user's data to the list of players in the room
+    //KITA MASUKIN DATA KITA DI SPREAD SUPAYA GABUNG SAMA DATA SEBELUMNYA
     const roomUpdate = {
       ...room,
       players: [
@@ -111,11 +107,12 @@ io.on("connection", (socket) => {
       ],
     };
 
+    //KITA SET ULANG ROOMS KITA DENGAN DATA TERBARU
     rooms.set(args.roomId, roomUpdate);
 
-    callback(roomUpdate); // respond to the client with the room details.
+    callback(roomUpdate); //KITA PASSING DATA ROOMUPDATE
 
-    // emit an 'opponentJoined' event to the room to tell the other player that an opponent has joined
+    //KITA KIRIM EVENT OPPONENTJOINED ISINYA DATA ROOMUPDATE KE ROOMID
     socket.to(args.roomId).emit("opponentJoined", roomUpdate);
   });
 
