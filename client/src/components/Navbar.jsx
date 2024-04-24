@@ -1,12 +1,13 @@
 import { Link, useNavigate } from "react-router-dom";
+import socket from "../socket";
 
 const Navbar = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
     localStorage.clear();
-
-    navigate("/login");
+    socket.disconnect();
+    navigate("/");
   };
 
   return (
@@ -22,7 +23,7 @@ const Navbar = () => {
       </div>
       <div className="navbar-center">
         <Link
-          to={"/leaderboard"}
+          to={"/"}
           className="btn btn-ghost text-lg flex justify-center items-center"
         >
           Leaderboard

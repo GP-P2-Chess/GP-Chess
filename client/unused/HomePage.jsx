@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import socket from "../socket";
+import socket from "../src/socket";
 
 const HomePage = ({ url }) => {
   const [rooms, setRooms] = useState([]);
