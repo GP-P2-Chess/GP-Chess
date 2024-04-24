@@ -1,10 +1,8 @@
 const HomePage = () => {
   return (
-    <>
-      <div>
-        <h1>Ini HomePage</h1>
-      </div>
-    </>
+    <section className="w-full grow flex flex-row justify-center items-center">
+      <div></div>
+    </section>
   );
 };
 
