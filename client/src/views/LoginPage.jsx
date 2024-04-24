@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Toastify from "toastify-js";
 
 const LoginPage = ({ url }) => {
   const [loginForm, setLoginForm] = useState({
@@ -23,16 +24,48 @@ const LoginPage = ({ url }) => {
   };
 
   const navigate = useNavigate();
-
   const handleFormInput = async (e) => {
     try {
       e.preventDefault();
 
       const { data } = await axios.post(`${url}/login`, loginForm, {});
 
+      // console.log(data);
+      localStorage.setItem("access_token", data.access_token);
+      localStorage.setItem("username", data.username);
+
+      Toastify({
+        text: "Login Success",
+        duration: 3000,
+        newWindow: true,
+        close: true,
+        gravity: "bottom", // `top` or `bottom`
+        position: "right", // `left`, `center` or `right`
+        stopOnFocus: true, // Prevents dismissing of toast on hover
+        style: {
+          background: "linear-gradient(to right, #00b09b, #96c93d)",
+        },
+      }).showToast();
+
       navigate("/");
     } catch (error) {
       console.log(error);
+
+      Toastify({
+        text: error.response.data.message,
+        duration: 2000,
+        newWindow: true,
+        close: true,
+        gravity: "bottom",
+        position: "right",
+        stopOnFocus: true,
+        style: {
+          background: "#EF4C54",
+          color: "#17202A",
+          boxShadow: "0 5px 10px black",
+          fontWeight: "bold",
+        },
+      }).showToast();
     }
   };
 
@@ -87,10 +120,10 @@ const LoginPage = ({ url }) => {
                 onChange={passwordInput}
               />
             </label>
+            <button type="submit" className="btn btn-primary w-1/3 mt-2">
+              Login
+            </button>
           </form>
-          <button type="submit" className="btn btn-primary w-1/3">
-            Login
-          </button>
           <p>
             Don't have an account yet?{" "}
             <Link to={"/register"} className="text-primary">
