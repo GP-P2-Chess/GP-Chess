@@ -10,7 +10,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="navbar bg-base-300 h-1/10">
+    <nav className="navbar bg-accent text-black">
       <div className="navbar-start">
         <img src="" alt="" />
         <Link
