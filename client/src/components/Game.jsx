@@ -8,6 +8,7 @@ function Game({ players, room, orientation, cleanup }) {
   console.log(chess);
   const [fen, setFen] = useState(chess.fen()); // <- 2
   const [over, setOver] = useState("");
+  console.log(chess.fen());
 
   // onDrop function
   const onDrop = async (sourceSquare, targetSquare) => {
