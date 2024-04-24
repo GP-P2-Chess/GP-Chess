@@ -1,8 +1,10 @@
 const Navbar = () => {
   return (
-    <>
-      <h1>Ini Navbar</h1>
-    </>
+    <nav>
+      <div></div>
+      <div></div>
+      <div></div>
+    </nav>
   );
 };
 
