@@ -30,6 +30,10 @@ const ErrorHandler = (err, req, res, next) => {
     code = 404;
     message = "Room Not Found";
   }
+  if (err.message == "FORBIDDEN") {
+    code = 403;
+    message = "Forbidden";
+  }
 
   res.status(code).json({ message });
 };

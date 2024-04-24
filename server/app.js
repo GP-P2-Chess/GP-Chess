@@ -9,6 +9,8 @@ const { createServer } = require("http");
 const ControllerUser = require("./controllers/controllerUser");
 const ControllerGame = require("./controllers/controllerGame");
 const Authentication = require("./middlewares/authentication");
+const authorization = require("./middlewares/authorization");
+const { Socket } = require("dgram");
 
 app.use(cors());
 app.use(express.json());
@@ -24,11 +26,19 @@ app.post("/login", ControllerUser.Login);
 
 //authentication
 app.use(Authentication);
+
 app.get("/rooms", ControllerGame.readRooms);
 app.post("/room", ControllerGame.createRoom);
 app.get("/room/:id", ControllerGame.readOneRoom);
-app.patch("/room/:id/join", ControllerGame.joinRoom);
+app.put("/room/:id/join", authorization, ControllerGame.joinRoom);
+app.put("/room/:id", ControllerGame.updateRoom);
+app.put("/room/winner/:id", ControllerGame.updateWinner);
+app.get("/leaderboard", ControllerGame.leaderBoard);
 
 app.use(ErrorHandler);
+
+io.on("connection", (socket) => {
+  console.log(socket.id, "connected");
+});
 
 module.exports = server;
