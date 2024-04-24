@@ -30,7 +30,7 @@ const RegisterPage = ({ url }) => {
 
       const { data } = await axios.post(`${url}/login`, loginForm, {});
 
-      navigate("/");
+      navigate("/login");
     } catch (error) {
       console.log(error);
     }
