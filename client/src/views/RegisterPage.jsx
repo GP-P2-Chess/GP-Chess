@@ -93,7 +93,7 @@ const RegisterPage = ({ url }) => {
           </button>
           <p>
             Already have an account?{" "}
-            <Link to={"/register"} className="text-primary">
+            <Link to={"/login"} className="text-primary">
               Login Now!
             </Link>
           </p>
