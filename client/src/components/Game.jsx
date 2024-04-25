@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 
 function Game({ players, room, orientation, cleanup }) {
-  const chess = useMemo(() => new Chess(), []); // BUAT NYIMPEN CHESS KE CACHE
+  const chess = useMemo(() => new Chess(), []); // SUPAYA CHESS INI BISA INGET PERHITUNGAN TERAKHIRNYA
   const [fen, setFen] = useState(chess.fen()); // <- 2
   const [over, setOver] = useState(""); //BUAT NENTUIN SELESAI APA BELOM
   const makeAMove = useCallback(
@@ -134,6 +134,9 @@ function Game({ players, room, orientation, cleanup }) {
           </Box>
         )}
       </Stack>
+      <div>
+        <h1>Turn : {chess.turn() === "w" ? "White" : "Black"}</h1>
+      </div>
       <CustomDialog // Game Over CustomDialog
         open={Boolean(over)}
         title={over}
