@@ -1,8 +1,6 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, redirect } from "react-router-dom";
 import BaseLayout from "../baselayout/BaseLayout";
-import HomePage from "../views/HomePage";
 import GamePage from "../views/GamePage";
-import LeaderBoard from "../views/LeaderBoard";
 import LoginPage from "../views/LoginPage";
 import RegisterPage from "../views/RegisterPage";
 
@@ -12,26 +10,44 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <LoginPage url={url} />,
+    loader: () => {
+      if (localStorage.access_token) {
+        return redirect("/");
+      }
+      return null;
+    },
   },
   {
     path: "/register",
     element: <RegisterPage url={url} />,
+    loader: () => {
+      if (localStorage.access_token) {
+        return redirect("/");
+      }
+      return null;
+    },
   },
   {
     element: <BaseLayout url={url} />,
+    loader: () => {
+      if (!localStorage.access_token) {
+        return redirect("/login");
+      }
+      return null;
+    },
     children: [
       {
         path: "/",
-        element: <HomePage url={url} />,
-      },
-      {
-        path: "/room/:id",
         element: <GamePage url={url} />,
       },
-      {
-        path: "/leaderboard",
-        element: <LeaderBoard url={url} />,
-      },
+      // {
+      //   path: "/room/:id",
+      //   element: <GamePage url={url} />,
+      // },
+      // {
+      //   path: "/leaderboard",
+      //   element: <LeaderBoard url={url} />,
+      // },
     ],
   },
 ]);

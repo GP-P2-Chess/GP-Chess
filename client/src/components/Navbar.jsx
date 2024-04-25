@@ -1,16 +1,38 @@
 import { Link, useNavigate } from "react-router-dom";
+import socket from "../socket";
+import { useContext } from "react";
+import { themeContext } from "../context/ThemeContext";
+import { IoIosSunny } from "react-icons/io";
+import { GiMoon } from "react-icons/gi";
+import Toastify from "toastify-js";
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const { currentTheme, handleTheme } = useContext(themeContext);
 
   const handleLogout = () => {
     localStorage.clear();
+    socket.disconnect();
 
-    navigate("/login");
+    Toastify({
+      text: "Logout Success",
+      duration: 3000,
+      newWindow: true,
+      close: true,
+      gravity: "bottom", // `top` or `bottom`
+      position: "right", // `left`, `center` or `right`
+      stopOnFocus: true, // Prevents dismissing of toast on hover
+      style: {
+        background: "rgb(0, 215, 192)",
+        color: "#000000",
+      },
+    }).showToast();
+
+    navigate("/");
   };
 
   return (
-    <nav className="navbar bg-base-300 h-1/10">
+    <nav className="navbar bg-accent text-black">
       <div className="navbar-start">
         <img src="" alt="" />
         <Link
@@ -21,12 +43,11 @@ const Navbar = () => {
         </Link>
       </div>
       <div className="navbar-center">
-        <Link
-          to={"/leaderboard"}
-          className="btn btn-ghost text-lg flex justify-center items-center"
-        >
-          Leaderboard
-        </Link>
+        {currentTheme == "light" ? (
+          <IoIosSunny onClick={handleTheme} className="cursor-pointer size-8" />
+        ) : (
+          <GiMoon onClick={handleTheme} className="cursor-pointer size-8" />
+        )}
       </div>
       <div className="navbar-end">
         <div className="dropdown dropdown-end">
@@ -44,7 +65,7 @@ const Navbar = () => {
           </div>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-accent text-black rounded-box w-52"
           >
             <li>
               <a className="justify-between">Profile</a>
