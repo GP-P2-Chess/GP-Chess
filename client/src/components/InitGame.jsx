@@ -21,7 +21,6 @@ export default function InitGame({ setRoom, setOrientation, setPlayers }) {
         contentText="Enter a valid room ID to join the room"
         handleContinue={() => {
           // join a room
-          if (!roomInput) return; // if given room input is valid, do nothing.
           socket.emit("joinRoom", { roomId: roomInput }, (r) => {
             // r is the response from the server
             if (r.error) {
