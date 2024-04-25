@@ -49,7 +49,7 @@ function Game({ players, room, orientation, cleanup }) {
     //CEK TURNNYA SAMA APA NGGA SAMA WARNA CATUR KITA
     if (chess.turn() !== orientation[0]) return false;
 
-    //BUAT NUNGGU USER YANG JOIN
+    //BUAT NUNGGU USER YANG JOIN, YANG CREATE GA BISA JALAN
     if (players.length < 2) return false;
 
     const moveData = {

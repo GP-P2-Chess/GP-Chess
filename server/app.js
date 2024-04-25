@@ -90,7 +90,6 @@ io.on("connection", (socket) => {
     }
 
     await socket.join(args.roomId); // JOIN ROOM
-
     //KITA MASUKIN DATA KITA DI SPREAD SUPAYA GABUNG SAMA DATA SEBELUMNYA
     const roomUpdate = {
       ...room,
@@ -102,7 +101,6 @@ io.on("connection", (socket) => {
 
     //KITA SET ULANG ROOMS KITA DENGAN DATA TERBARU
     rooms.set(args.roomId, roomUpdate);
-
     callback(roomUpdate); //KITA PASSING DATA ROOMUPDATE
 
     //KITA KIRIM EVENT OPPONENTJOINED ISINYA DATA ROOMUPDATE KE ROOMID
