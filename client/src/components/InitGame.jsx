@@ -12,7 +12,7 @@ export default function InitGame({ setRoom, setOrientation, setPlayers }) {
     <Stack
       justifyContent="center"
       alignItems="center"
-      sx={{ py: 1, height: "100vh" }}
+      sx={{ py: 1, flexGrow: 1, height: "100%" }}
     >
       <CustomDialog
         open={roomDialogOpen}
@@ -55,8 +55,8 @@ export default function InitGame({ setRoom, setOrientation, setPlayers }) {
       </CustomDialog>
 
       {/* BUTTON BUAT CREATE GAME */}
-      <Button
-        variant="contained"
+      <button
+        className="btn btn-primary text-neutral"
         onClick={() => {
           // create a room
           socket.emit("createRoom", (r) => {
@@ -67,16 +67,17 @@ export default function InitGame({ setRoom, setOrientation, setPlayers }) {
         }}
       >
         Start a game
-      </Button>
-
+      </button>
+      <br />
       {/* BUTTON BUAT JOIN GAME */}
-      <Button
+      <button
+        className="btn btn-outline btn-primary"
         onClick={() => {
           setRoomDialogOpen(true);
         }}
       >
         Join a game
-      </Button>
+      </button>
     </Stack>
   );
 }

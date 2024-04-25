@@ -107,53 +107,64 @@ function Game({ players, room, orientation, cleanup }) {
 
   // Game component returned jsx
   return (
-    <Stack>
-      <Card>
-        <CardContent>
-          <Typography variant="h5">Room ID: {room}</Typography>
-        </CardContent>
-      </Card>
-      <Stack flexDirection="row" sx={{ pt: 2 }}>
-        <div
-          className="board"
-          style={{
-            maxWidth: 600,
-            maxHeight: 600,
-            flexGrow: 1,
-          }}
-        >
-          <Chessboard
-            position={fen}
-            onPieceDrop={onDrop}
-            boardOrientation={orientation}
-          />
-        </div>
-        {players.length > 0 && (
-          <Box>
-            <List>
-              <ListSubheader>Players</ListSubheader>
+    <div className="flex flex-col justify-center items-center">
+      <Stack>
+        <Card>
+          <CardContent>
+            <Typography variant="h5">Room ID: {room}</Typography>
+          </CardContent>
+        </Card>
+
+        <div className="flex flex-row gap-4 my-12">
+          <div
+            className="board w-600 h-600 grow"
+            // style={{
+            //   maxWidth: 600,
+            //   maxHeight: 600,
+            //   flexGrow: 1,
+            // }}
+          >
+            <Chessboard
+              position={fen}
+              onPieceDrop={onDrop}
+              boardOrientation={orientation}
+            />
+          </div>
+
+          {players.length < 1 && (
+            <div>
+              <p>Waiting for Opponent...</p>
+            </div>
+          )}
+
+          {players.length > 0 && (
+            <div>
+              <p className="text-lg font-bold">Players:</p>
               {players.map((p) => (
-                <ListItem key={p.id}>
-                  <ListItemText primary={p.username} />
-                </ListItem>
+                <p className="text-md">{p.username}</p>
               ))}
-            </List>
-          </Box>
-        )}
+              <br />
+              <p>
+                Turn:{" "}
+                {chess.turn() === "w"
+                  ? `White (${players[0].username})`
+                  : `Black (${players[1].username})`}
+              </p>
+            </div>
+          )}
+        </div>
+
+        <CustomDialog // Game Over CustomDialog
+          open={Boolean(over)}
+          title={over}
+          contentText={over}
+          handleContinue={() => {
+            socket.emit("closeRoom", { roomId: room });
+            cleanup();
+          }}
+        />
       </Stack>
-      <div>
-        <h1>Turn : {chess.turn() === "w" ? "White" : "Black"}</h1>
-      </div>
-      <CustomDialog // Game Over CustomDialog
-        open={Boolean(over)}
-        title={over}
-        contentText={over}
-        handleContinue={() => {
-          socket.emit("closeRoom", { roomId: room });
-          cleanup();
-        }}
-      />
-    </Stack>
+    </div>
   );
 }
 
