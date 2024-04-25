@@ -4,7 +4,7 @@ import GamePage from "../views/GamePage";
 import LoginPage from "../views/LoginPage";
 import RegisterPage from "../views/RegisterPage";
 
-const url = "http://localhost:3000";
+const url = "34.124.195.26";
 
 const router = createBrowserRouter([
   {
