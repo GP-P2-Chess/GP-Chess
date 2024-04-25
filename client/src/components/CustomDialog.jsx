@@ -15,19 +15,13 @@ export default function CustomDialog({
 }) {
   return (
     <Dialog open={open}>
-      {/*dialog container*/}
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
-        {/* Main body of modal/dialog */}
-        <DialogContentText>
-          {/* main text */}
-          {contentText}
-        </DialogContentText>
-        {children} {/* Other content */}
+        <DialogContentText>{contentText}</DialogContentText>
+        {children}
       </DialogContent>
       <DialogActions>
-        {/* Dialog action buttons */}
-        <Button onClick={handleClose}>Cancel</Button>
+        {/* <Button onClick={handleClose}>Cancel</Button> */}
         <Button onClick={handleContinue}>Continue</Button>
       </DialogActions>
     </Dialog>

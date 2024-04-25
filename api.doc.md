@@ -60,7 +60,7 @@ Request:
 
 ```json
 {
-  "email": "string",
+  "username": "string",
   "password": "string"
 }
 ```
@@ -77,7 +77,7 @@ Response (400 - Bad Request)
 
 ```json
 {
-  "message": "Email is required"
+  "message": "username is required"
 }
 OR
 {
@@ -89,7 +89,7 @@ Response (401 - Unauthorized)
 
 ```json
 {
-  "message": "Invalid email/password"
+  "message": "Invalid username/password"
 }
 ```
 

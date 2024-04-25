@@ -1,4 +1,4 @@
-import { Button, Stack, TextField } from "@mui/material";
+import { Stack, TextField } from "@mui/material";
 import { useState } from "react";
 import CustomDialog from "./CustomDialog";
 import socket from "../socket";
@@ -20,18 +20,17 @@ export default function InitGame({ setRoom, setOrientation, setPlayers }) {
         title="Select Room to Join"
         contentText="Enter a valid room ID to join the room"
         handleContinue={() => {
-          // join a room
+          // JOIN ROOM
           socket.emit("joinRoom", { roomId: roomInput }, (r) => {
-            // r is the response from the server
             if (r.error) {
               console.log(r.error);
               return setRoomError(r.message);
-            } // if an error is returned in the response set roomError to the error message and exit
+            }
             console.log("response:", r);
-            setRoom(r?.roomId); // set room to the room ID
-            setPlayers(r?.players); // set players array to the array of players in the room
-            setOrientation("black"); // set orientation as black
-            setRoomDialogOpen(false); // close dialog
+            setRoom(r?.roomId); // SET ROOM ID DARI BALIKAN R
+            setPlayers(r?.players); // TAMBAHAIN PLAYERS
+            setOrientation("black"); // KASIH DIA JADI HITAM
+            setRoomDialogOpen(false); // CLOSE MODAL
           });
         }}
       >
@@ -66,7 +65,7 @@ export default function InitGame({ setRoom, setOrientation, setPlayers }) {
           });
         }}
       >
-        Start a game
+        Create a game
       </button>
       <br />
       {/* BUTTON BUAT JOIN GAME */}
