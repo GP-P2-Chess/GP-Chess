@@ -16,15 +16,14 @@ import {
 } from "@mui/material";
 
 function Game({ players, room, orientation, cleanup }) {
-  const chess = useMemo(() => new Chess(), []); // <- 1
+  const chess = useMemo(() => new Chess(), []); // BUAT NYIMPEN CHESS KE CACHE
   const [fen, setFen] = useState(chess.fen()); // <- 2
-  const [over, setOver] = useState("");
-
+  const [over, setOver] = useState(""); //BUAT NENTUIN SELESAI APA BELOM
   const makeAMove = useCallback(
     (move) => {
       try {
         const result = chess.move(move); // update Chess instance
-        setFen(chess.fen()); // update fen state to trigger a re-render
+        setFen(chess.fen()); // UPDATE FEN STATE BUAT RE-RENDER NANTI
 
         console.log("over, checkmate", chess.isGameOver(), chess.isCheckmate());
 
@@ -44,7 +43,7 @@ function Game({ players, room, orientation, cleanup }) {
         return result;
       } catch (e) {
         return null;
-        //KALAU ILLEGAL RETURN NULL
+        //KALAU ILLEGAL RETURN NULL TIDAK TERJADI APA2
       }
     },
     [chess]
@@ -140,7 +139,7 @@ function Game({ players, room, orientation, cleanup }) {
         title={over}
         contentText={over}
         handleContinue={() => {
-          setOver("");
+          socket.emit("closeRoom", { roomId: room });
           cleanup();
         }}
       />

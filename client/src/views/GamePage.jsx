@@ -22,7 +22,8 @@ const GamePage = () => {
   }, []);
 
   useEffect(() => {
-    // const username = prompt("Username");
+    //edit
+    // const username = localStorage.username;
     // setUsername(username);
     // socket.emit("username", username);
 
@@ -34,6 +35,7 @@ const GamePage = () => {
 
   return (
     <Container>
+      {/* {edit} */}
       <CustomDialog
         open={!usernameSubmitted}
         handleClose={() => setUsernameSubmitted(true)}
@@ -65,7 +67,7 @@ const GamePage = () => {
           orientation={orientation}
           username={username}
           players={players}
-          // the cleanup function will be used by Game to reset the state when a game is over
+          //CLEANUP DIPAKAI HANYA UNTUK RESET GAME SETELAH SELESAI PERMAINAN
           cleanup={cleanup}
         />
       ) : (
