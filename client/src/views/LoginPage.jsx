@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Toastify from "toastify-js";
+import Logo from "../assets/Logo-catur.png";
 
 const LoginPage = ({ url }) => {
   const [loginForm, setLoginForm] = useState({
@@ -73,7 +74,7 @@ const LoginPage = ({ url }) => {
   return (
     <section className="h-dvh flex flex-row">
       <div className="w-1/2 h-full flex justify-center items-center">
-        <h1>ChessWithFriends</h1>
+        <img src={Logo} className="h-2/4" />
       </div>
       <div className="w-1/2 h-full flex justify-center items-center">
         <div className="w-2/3 bg-base-200 flex flex-col justify-center items-center rounded-xl border-2 shadow-md p-12 gap-4">
