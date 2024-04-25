@@ -56,7 +56,7 @@ export default function InitGame({ setRoom, setOrientation, setPlayers }) {
 
       {/* BUTTON BUAT CREATE GAME */}
       <button
-        className="btn btn-primary text-neutral"
+        className="btn btn-primary text-slate-200"
         onClick={() => {
           // create a room
           socket.emit("createRoom", (r) => {
