@@ -3,17 +3,7 @@ import { Chessboard } from "react-chessboard";
 import { Chess } from "chess.js";
 import CustomDialog from "./CustomDialog";
 import socket from "../socket";
-import {
-  Card,
-  CardContent,
-  List,
-  ListItem,
-  ListItemText,
-  ListSubheader,
-  Stack,
-  Typography,
-  Box,
-} from "@mui/material";
+import { Card, CardContent, Stack, Typography } from "@mui/material";
 import useSound from "use-sound";
 import dropSfx from "../assets/sound/dropChess.mp3";
 
@@ -105,7 +95,6 @@ function Game({ players, room, orientation, cleanup }) {
     });
   }, [room, cleanup]);
 
-  // Game component returned jsx
   return (
     <div className="flex flex-col justify-center items-center">
       <Stack>
