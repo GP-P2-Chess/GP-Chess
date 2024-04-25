@@ -40,14 +40,6 @@ const router = createBrowserRouter([
         path: "/",
         element: <GamePage url={url} />,
       },
-      // {
-      //   path: "/room/:id",
-      //   element: <GamePage url={url} />,
-      // },
-      // {
-      //   path: "/leaderboard",
-      //   element: <LeaderBoard url={url} />,
-      // },
     ],
   },
 ]);
