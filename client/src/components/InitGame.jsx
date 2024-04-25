@@ -65,7 +65,7 @@ export default function InitGame({ setRoom, setOrientation, setPlayers }) {
           });
         }}
       >
-        Start a game
+        Create a game
       </button>
       <br />
       {/* BUTTON BUAT JOIN GAME */}

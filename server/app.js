@@ -58,7 +58,6 @@ io.on("connection", (socket) => {
       roomId,
       players: [{ id: socket.id, username: socket.data?.username }],
     });
-    // returns Map(1){'2b5b51a9-707b-42d6-9da8-dc19f863c0d0' => [{id: 'socketid', username: 'username1'}]}
 
     callback(roomId); // OPER ROOMID KE CLIENT LEWAT CALLBACK
   });
@@ -72,10 +71,7 @@ io.on("connection", (socket) => {
       //KALO ROOM GA ADA
       error = true;
       message = "room does not exist";
-    } /*else if (room.length <= 0) { 
-      error = true;
-      message = "room is empty";
-    }*/ else if (room.players.length > 1) {
+    } else if (room.players.length > 1) {
       //SET MAXIMAL PLAYER ITU 2 || 1 DARI JOIN || 1 DARI CREATE JADI > 1 ATAU < 1 ATAU == 0
       error = true;
       message = "room is full";
