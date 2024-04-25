@@ -2,9 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import Container from "@mui/material/Container";
 import Game from "../components/Game";
 import InitGame from "../components/InitGame";
-import CustomDialog from "../components/CustomDialog";
 import socket from "../socket";
-import { TextField } from "@mui/material";
 
 const GamePage = () => {
   const [room, setRoom] = useState("");
