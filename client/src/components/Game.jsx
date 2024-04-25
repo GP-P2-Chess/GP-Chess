@@ -14,11 +14,16 @@ import {
   Typography,
   Box,
 } from "@mui/material";
+import useSound from "use-sound";
+import dropSfx from "../assets/sound/dropChess.mp3";
 
 function Game({ players, room, orientation, cleanup }) {
+  const [playDrop] = useSound(dropSfx);
   const chess = useMemo(() => new Chess(), []); // SUPAYA CHESS INI BISA INGET PERHITUNGAN TERAKHIRNYA
-  const [fen, setFen] = useState(chess.fen()); // <- 2
+
+  const [fen, setFen] = useState(chess.fen()); // POSISI CHESSNYA
   const [over, setOver] = useState(""); //BUAT NENTUIN SELESAI APA BELOM
+
   const makeAMove = useCallback(
     (move) => {
       try {
@@ -74,6 +79,8 @@ function Game({ players, room, orientation, cleanup }) {
       move,
       room,
     });
+
+    playDrop();
 
     return true;
   }

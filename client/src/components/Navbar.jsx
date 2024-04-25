@@ -4,6 +4,7 @@ import { useContext } from "react";
 import { themeContext } from "../context/ThemeContext";
 import { IoIosSunny } from "react-icons/io";
 import { GiMoon } from "react-icons/gi";
+import Toastify from "toastify-js";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -12,6 +13,21 @@ const Navbar = () => {
   const handleLogout = () => {
     localStorage.clear();
     socket.disconnect();
+
+    Toastify({
+      text: "Logout Success",
+      duration: 3000,
+      newWindow: true,
+      close: true,
+      gravity: "bottom", // `top` or `bottom`
+      position: "right", // `left`, `center` or `right`
+      stopOnFocus: true, // Prevents dismissing of toast on hover
+      style: {
+        background: "rgb(0, 215, 192)",
+        color: "#000000",
+      },
+    }).showToast();
+
     navigate("/");
   };
 

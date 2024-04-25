@@ -40,7 +40,8 @@ const RegisterPage = ({ url }) => {
         position: "right", // `left`, `center` or `right`
         stopOnFocus: true, // Prevents dismissing of toast on hover
         style: {
-          background: "linear-gradient(to right, #00b09b, #96c93d)",
+          background: "rgb(0, 215, 192)",
+          color: "#000000",
         },
       }).showToast();
 
@@ -59,7 +60,6 @@ const RegisterPage = ({ url }) => {
         style: {
           background: "#EF4C54",
           color: "#17202A",
-          boxShadow: "0 5px 10px black",
           fontWeight: "bold",
         },
       }).showToast();
