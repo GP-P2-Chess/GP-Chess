@@ -49,25 +49,22 @@ io.on("connection", (socket) => {
 
   // createRoom
   socket.on("createRoom", async (callback) => {
-    // callback here refers to the callback function from the client passed as data
+    // CALLBACK DIPAKE UNTUK PASSING DATA KE CLIENT
     const roomId = uuidV4(); //GENERATE ID ROOM PAKE UUID
     await socket.join(roomId); // USER YANG CREATE BAKAL JOIN ROOMIDNYA
 
     //BIKIN ROOMID JADI KEY DAN KITA MASUKAN DATA USER
     rooms.set(roomId, {
-      // <- 3
       roomId,
       players: [{ id: socket.id, username: socket.data?.username }],
     });
     // returns Map(1){'2b5b51a9-707b-42d6-9da8-dc19f863c0d0' => [{id: 'socketid', username: 'username1'}]}
 
-    callback(roomId); // <- 4 respond with roomId to client by calling the callback function from the client
+    callback(roomId); // OPER ROOMID KE CLIENT LEWAT CALLBACK
   });
 
   socket.on("joinRoom", async (args, callback) => {
-    // check if room exists and has a player waiting
     const room = rooms.get(args.roomId);
-    console.log(room);
     let error, message;
 
     //CEK ROOMNYA
@@ -79,7 +76,7 @@ io.on("connection", (socket) => {
       error = true;
       message = "room is empty";
     }*/ else if (room.players.length > 1) {
-      //SET MAXIMAL PLAYER ITU 2
+      //SET MAXIMAL PLAYER ITU 2 || 1 DARI JOIN || 1 DARI CREATE JADI > 1 ATAU < 1 ATAU == 0
       error = true;
       message = "room is full";
     }
@@ -117,40 +114,41 @@ io.on("connection", (socket) => {
   });
 
   socket.on("move", (data) => {
-    // emit to all sockets in the room except the emitting socket.
+    //KITA KIRIM KE ROOMNYA SAMA BROADCAST KE SEMUA YANG ADA DI ROOM MOVENYA
     socket.to(data.room).emit("move", data.move);
   });
 
+  //SOCKET IO PUNYA EVENT SPECIAL DISCONNECT YANG DIMANA USER KALO KELUAR LANGSUNG DISCONNECT LANGSUNG KETERIMA SAMA INI
   socket.on("disconnect", () => {
-    const gameRooms = Array.from(rooms.values()); // <- 1
+    const gameRooms = Array.from(rooms.values()); //KITA AMBIL SEMUA ROOMS YANG ADA BENTUK ARRAY
 
     gameRooms.forEach((room) => {
-      // <- 2
+      //KITA MAP KITA CARI ID PLAYERNYA DISETIAP ROOM YANG ADA
       const userInRoom = room.players.find((player) => player.id === socket.id); // <- 3
 
       if (userInRoom) {
+        //KALAU TRUE, PLAYERNYA KETEMU
         if (room.players.length < 2) {
-          // if there's only 1 player in the room, close it and exit.
+          //KALAU PLAYERNYA CUMAN ADA 1 BERARTI KITA LANGSUNG DELETE ROOMNYA
           rooms.delete(room.roomId);
           return;
         }
-
+        //KITA KIRIM KALO USERNYA TUH DISCONNECT
         socket.to(room.roomId).emit("playerDisconnected", userInRoom); // <- 4
       }
     });
   });
 
   socket.on("closeRoom", async (data) => {
-    socket.to(data.roomId).emit("closeRoom", data); // <- 1 inform others in the room that the room is closing
+    socket.to(data.roomId).emit("closeRoom", data); //INI BUAT KIRIM ROOMID YANG DITERIMA SAMA CLIENT YANG MAU CLOSE ROOM
 
-    const clientSockets = await io.in(data.roomId).fetchSockets(); // <- 2 get all sockets in a room
-
-    // loop over each socket client
+    const clientSockets = await io.in(data.roomId).fetchSockets(); // BUAT DAPETIN SEMUA SOCKETS YANG ADA DI ROOMNYA
+    // LOOPING SOCKETNYA BUAT KELUARIN SOCKETNYA DARI ROOMIDNYA
     clientSockets.forEach((s) => {
-      s.leave(data.roomId); // <- 3 and make them leave the room on socket.io
+      s.leave(data.roomId);
     });
 
-    rooms.delete(data.roomId); // <- 4 delete room from rooms map
+    rooms.delete(data.roomId); // KALAU SEMUA UDAH KELUAR TINGGAL DI DELETE ROOMNYA
   });
 });
 
