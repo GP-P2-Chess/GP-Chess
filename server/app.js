@@ -1,4 +1,6 @@
-require("dotenv").config();
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
 const { Room, User } = require("./models/index");
 const { Server } = require("socket.io");
 const { createServer } = require("http");
@@ -18,7 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 
 const server = createServer(app);
 const io = new Server(server, {
-  cors: { origin: "http://localhost:5173" },
+  cors: { origin: "https://gp-chess-client.vercel.app/" },
 });
 
 app.post("/register", ControllerUser.Register);
