@@ -18,7 +18,9 @@ app.use(express.urlencoded({ extended: true }));
 
 const server = createServer(app);
 const io = new Server(server, {
-  cors: { origin: "http://localhost:5173" },
+  cors: {
+    origin: "https://gp-chess-client.vercel.app/",
+  },
 });
 
 app.post("/register", ControllerUser.Register);
